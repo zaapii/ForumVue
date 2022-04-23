@@ -6,12 +6,14 @@ import dataJson from '@/data.json'
 import ForumPage from '@/pages/ForumPage'
 import CategoryPage from '@/pages/CategoryPage'
 import ProfilePage from '@/pages/ProfilePage'
+import ThreadCreate from '@/pages/ThreadCreate'
 const routes = [
   { path: '/', name: 'Home', component: HomePage },
   { path: '/forum/:id', name: 'ForumPage', component: ForumPage, props: true },
   { path: '/category/:id', name: 'CategoryPage', component: CategoryPage, props: true },
-  { path: '/me', name: 'ProfilePage', component: ProfilePage },
-  { path: '/me/edit', name: 'ProfileEdit', component: ProfilePage, props: {edit: true} },
+  { path: '/me', name: 'ProfilePage', component: ProfilePage, meta: { toTop: true, smoothScroll: true } },
+  { path: '/me/edit', name: 'ProfileEdit', component: ProfilePage, props: { edit: true } },
+  { path: '/forum/:forumId/thread/create', name: 'ThreadCreate', component: ThreadCreate, props: true },
   {
     path: '/thread/:id',
     name: 'ThreadShow',
@@ -39,5 +41,11 @@ const routes = [
 
 export default createRouter({
   history: createWebHistory(),
-  routes
+  routes,
+  scrollBehavior (to) {
+    const scroll = {}
+    if (to.meta.toTop) scroll.top = 0
+    if (to.meta.smoothScroll) scroll.behavior = 'smooth'
+    return scroll
+  }
 })

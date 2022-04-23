@@ -1,9 +1,9 @@
 <template>
     <form @submit.prevent="save">
-      <div class="form-group">
+<!--       <div class="form-group">
         <label for="thread_title">Título:</label>
         <input type="text" id="thread_title" class="form-input" name="title" />
-      </div>
+      </div> -->
 
       <div class="form-group">
         <label for="thread_content">Contenido:</label>
@@ -18,7 +18,7 @@
       </div>
 
       <div class="btn-group">
-        <button class="btn btn-ghost">Cancelar</button>
+        <button type="button" class="btn btn-ghost">Cancelar</button>
         <button class="btn btn-blue" type="submit" name="Publish">
           Publicar
         </button>
@@ -31,9 +31,7 @@ export default {
   methods: {
     save () {
       const post = {
-        text: this.text,
-        publishedAt: Math.floor(Date.now() / 1000),
-        userId: 'L664y3qZSubDbT1R6npC0EEybJ73'
+        text: this.text
       }
 
       this.$emit('save', { post })

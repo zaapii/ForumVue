@@ -1,4 +1,5 @@
 <template>
+<div>
   <div class="profile-card">
     <p class="text-center">
       <img
@@ -28,6 +29,13 @@
     <p v-if="user.website" class="text-large text-center">
       <i class="fa fa-globe"></i> <a :href="user.website">{{ user.website }}</a>
     </p>
+  </div>
+  <p class="text-xsmall text-faded text-center">Member since june 2003, last visited 4 hours ago</p>
+
+    <div class="text-center">
+      <hr />
+      <router-link :to="{name:'ProfileEdit', params: {edit: true}}" class="btn-green btn-small">Edit Profile</router-link>
+    </div>
   </div>
 </template>
 

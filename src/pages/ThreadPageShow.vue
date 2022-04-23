@@ -2,7 +2,7 @@
   <div v-if="thread" class="col-large push-top">
     <h1>{{ thread.title }}</h1>
 
-    <PostsList :posts="posts" />
+    <PostsList :posts="threadPosts" />
 
     <post-editor @save="addPost" />
   </div>
