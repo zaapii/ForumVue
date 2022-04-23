@@ -3,7 +3,7 @@
     <div v-for="post in posts" :key="post.id" class="post">
       <div class="user-info">
         <a href="#" class="user-name">{{
-          post.userId.name
+          userById(post.userId).name
         }}</a>
 
         <a href="#">
@@ -33,12 +33,10 @@
 </template>
 
 <script>
-import dataJson from '@/data.json'
+
 export default {
-  data () {
-    return {
-      users: dataJson.users
-    }
+  computed: {
+    users () { return this.$store.state.users }
   },
   props: {
     posts: {

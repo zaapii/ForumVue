@@ -5,10 +5,13 @@ import NotFound from '@/pages/PageNotFound'
 import dataJson from '@/data.json'
 import ForumPage from '@/pages/ForumPage'
 import CategoryPage from '@/pages/CategoryPage'
+import ProfilePage from '@/pages/ProfilePage'
 const routes = [
   { path: '/', name: 'Home', component: HomePage },
   { path: '/forum/:id', name: 'ForumPage', component: ForumPage, props: true },
   { path: '/category/:id', name: 'CategoryPage', component: CategoryPage, props: true },
+  { path: '/me', name: 'ProfilePage', component: ProfilePage },
+  { path: '/me/edit', name: 'ProfileEdit', component: ProfilePage, props: {edit: true} },
   {
     path: '/thread/:id',
     name: 'ThreadShow',

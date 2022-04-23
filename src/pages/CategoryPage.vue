@@ -11,7 +11,6 @@
 </template>
 
 <script>
-import dataJson from '@/data.json'
 import ForumList from '@/components/ForumList.vue'
 export default {
   components: { ForumList },
@@ -23,10 +22,10 @@ export default {
   },
   computed: {
     forums () {
-      return dataJson.forums.filter(forum => forum.categoryId === this.id)
+      return this.$store.state.forums.filter(forum => forum.categoryId === this.id)
     },
     category () {
-      return dataJson.categories.find(category => category.id === this.id)
+      return this.$store.state.categories.find(category => category.id === this.id)
     }
   }
 }
