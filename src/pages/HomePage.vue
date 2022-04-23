@@ -1,19 +1,22 @@
 <template>
   <h1>Bienvenido al Foro</h1>
 
-  <thread-list :threads="threads" />
+ <div class="forum-list col-full" v-for="category in categories" :key="category.id">
+  <CategoryList :category="category"/>
+ </div>
+
 </template>
 
 <script>
 import dataJson from '@/data.json'
-import ThreadList from '@/components/ThreadList.vue'
+import CategoryList from '@/components/CategoryList.vue'
 export default {
   components: {
-    ThreadList
+    CategoryList
   },
   data () {
     return {
-      threads: dataJson.threads
+      categories: dataJson.categories
     }
   }
 }

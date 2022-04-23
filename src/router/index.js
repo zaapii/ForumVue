@@ -3,8 +3,12 @@ import HomePage from '@/pages/HomePage'
 import ThreadPageShow from '@/pages/ThreadPageShow'
 import NotFound from '@/pages/PageNotFound'
 import dataJson from '@/data.json'
+import ForumPage from '@/pages/ForumPage'
+import CategoryPage from '@/pages/CategoryPage'
 const routes = [
   { path: '/', name: 'Home', component: HomePage },
+  { path: '/forum/:id', name: 'ForumPage', component: ForumPage, props: true },
+  { path: '/category/:id', name: 'CategoryPage', component: CategoryPage, props: true },
   {
     path: '/thread/:id',
     name: 'ThreadShow',

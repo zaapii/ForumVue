@@ -3,16 +3,21 @@
     <h1>{{ thread.title }}</h1>
 
     <PostsList :posts="posts" />
+
+    <post-editor @save="addPost"/>
+
   </div>
 </template>
 
 <script>
 import dataJson from '@/data.json'
 import PostsList from '@/components/PostsList'
+import PostEditor from '@/components/PostEditor.vue'
 export default {
   name: 'ThreadShow',
   components: {
-    PostsList
+    PostsList,
+    PostEditor
   },
   data () {
     return {
@@ -34,6 +39,15 @@ export default {
     threadPosts () {
       return this.posts.filter((post) => post.threadId === this.id)
     }
+  },
+  methods: {
+    addPost (eventData) {
+      const post = { ...eventData.post, threadId: this.id }
+
+      this.posts.push(post)
+      this.thread.posts.push(post.id)
+    }
   }
+
 }
 </script>
