@@ -18,7 +18,7 @@
       </div>
 
       <div class="btn-group">
-        <button type="button" class="btn btn-ghost">Cancelar</button>
+        <button type="button" @click="cancel" class="btn btn-ghost">Cancelar</button>
         <button class="btn btn-blue" type="submit" name="Publish">
           Publicar
         </button>
@@ -28,6 +28,11 @@
 
 <script>
 export default {
+  props: {
+    forumId: {
+      type: String
+    }
+  },
   methods: {
     save () {
       const post = {
@@ -36,6 +41,9 @@ export default {
 
       this.$emit('save', { post })
       this.text = ''
+    },
+    cancel () {
+      this.$router.push({ name: 'ForumPage', params: { id: this.forumId } })
     }
   }
 }

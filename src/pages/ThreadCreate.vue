@@ -33,7 +33,7 @@ export default {
         title,
         text
       })
-      this.$router.push({ name: 'ThreadShow', params: { id: thread.id } })
+      this.$router.push({ name: 'ThreadShow', params: { id: thread[0].id } })
     },
 
     cancel () {

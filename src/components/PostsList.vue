@@ -1,7 +1,7 @@
 <template>
   <div class="post-list">
     <div v-for="post in posts" :key="post.id" class="post">
-      <div class="user-info">
+      <div v-if="userById(post.userId)" class="user-info">
         <a href="#" class="user-name">{{
           userById(post.userId).name
         }}</a>
@@ -14,7 +14,8 @@
           />
         </a>
 
-        <p class="desktop-only text-small">107 posts</p>
+        <p class="desktop-only text-small">{{userById(post.userId).postsCount}} posts</p>
+        <p class="desktop-only text-small">{{userById(post.userId).threadsCount}} threads</p>
       </div>
 
       <div class="post-content">
@@ -46,7 +47,7 @@ export default {
   },
   methods: {
     userById (userId) {
-      return this.users.find((u) => u.id === userId)
+      return this.$store.getters.user(userId)
     }
   }
 }
