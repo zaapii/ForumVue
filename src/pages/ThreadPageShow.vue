@@ -16,9 +16,12 @@
       <span
         style="float: right; margin-top: 2px"
         class="hide-mobile text-faded text-small"
-        >{{ thread.repliesCount }} replies by
-        {{ thread.contributorsCount }} contributors</span
       >
+        {{ thread.repliesCount }}
+        {{ thread.repliesCount === 1 ? "reply" : "replies" }}
+        by {{ thread.contributorsCount }}
+        {{ thread.contributorsCount === 1 ? "contributor" : "contributors" }}
+      </span>
     </p>
 
     <posts-list :posts="threadPosts" />
@@ -100,8 +103,9 @@ export default {
             !this.asyncDataStatus_ready ||
             isLocal ||
             (previousItem?.edited && !previousItem?.edited?.at)
-          )
+          ) {
             return;
+          }
           this.addNotification({
             message: "Thread recently updated",
             timeout: 5000,

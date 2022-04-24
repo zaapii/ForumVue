@@ -6,7 +6,16 @@
 </template>
 
 <script>
-export default {}
+export default {
+  props: {
+    color: { type: String, default: '#263959' }
+  },
+  data () {
+    return {
+      spinnerColor: this.color
+    }
+  }
+}
 </script>
 
 <style scoped>
@@ -23,7 +32,7 @@ export default {}
   width: 100%;
   height: 100%;
   border-radius: 50%;
-  background-color: #263959;
+  background-color: v-bind(spinnerColor);
   opacity: 0.6;
   position: absolute;
   top: 0;

@@ -3,49 +3,51 @@ service cloud.firestore {
   match /databases/{database}/documents {
     match /{document=**} {
       allow read: if
-          true
+          true 
     }
-    function userIsLoggedIn()
-    {
-    	return request.auth != null
+    
+    function userIsLoggedIn(){
+      	return request.auth != null
+      }
+    function isNewResource(){
+      return resource == null
     }
-    function isNewResource()
-    {
-    	return resource == null
+    function resourceBelongsToUser(){
+      return request.auth.uid == resource.data.userId
     }
-    function resourceBelongsToUser()
-    {
-    	return request.auth.uid == resource.data.userId
-    }
+    
     //threads
-    match /threads/{thread} {
-    function isOnlyAppendingPostAndContributor(){
-    return request.resource.data.diff(resource.data).affectedKeys().hasOnly(['posts', 'contributors'])
+    match /threads/{thread}{
+    	function isOnlyAppendingPostAndContributor(){
+ 	 			return request.resource.data.diff(resource.data).affectedKeys().hasOnly(['posts', 'contributors'])
+			}
+      allow write: if
+      	userIsLoggedIn() && (isNewResource() || resourceBelongsToUser())
+      allow update: if
+      	isOnlyAppendingPostAndContributor()
     }
-    allow write: if
-      userIsLoggedIn() && (isNewResource() || resourceBelongsToUser())
-    allow update: if
-    isOnlyAppendingPostAndContributor()
-    }
-
     
     //posts
-    match /posts/{post} {
-    function isOnlyAppendingThread(){
-    return request.resource.data.diff(resource.data).affectedKeys().hasOnly(['threads'])
-    }
-    allow write: if
-      userIsLoggedIn() && (isNewResource() || resourceBelongsToUser())
-    allow update: if
-    isOnlyAppendingThread()
+    match /posts/{post}{
+      allow write: if
+      	userIsLoggedIn() && (isNewResource() || resourceBelongsToUser())
     }
     
-    //users
-    match /users/{user} {
-    allow create: if
-    true
-    allow update: if
-    request.auth.uid == resource.id
+    // forums
+    match /forums/{forum}{
+  		function isOnlyAppendingThread(){
+    		return request.resource.data.diff(resource.data).affectedKeys().hasOnly(['threads'])
+  		}
+  		allow update: if
+    		userIsLoggedIn() && isOnlyAppendingThread()
+		}
+    
+    // users
+    match /users/{user}{
+    	allow create: if
+      	true
+      allow update: if
+      	request.auth.uid == resource.id 
     }
   }
-  }
+}

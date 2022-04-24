@@ -3,6 +3,7 @@
     <transition-group name="notification">
       <div
         class="notification"
+        :class="`notification-type-${notification.type}`"
         v-for="notification in notifications"
         :key="notification.id"
       >
@@ -13,13 +14,13 @@
   </div>
 </template>
 <script>
-import useNotifications from "@/composables/useNotifications";
+import useNotifications from '@/composables/useNotifications'
 export default {
-  setup() {
-    const { notifications, removeNotification } = useNotifications();
-    return { notifications, removeNotification };
-  },
-};
+  setup () {
+    const { notifications, removeNotification } = useNotifications()
+    return { notifications, removeNotification }
+  }
+}
 </script>
 <style scoped>
 .notifications {
@@ -40,6 +41,9 @@ export default {
 .notification-enter-active,
 .notification-leave-active {
   transition: all 0.5s ease;
+}
+.notification.notification-type-error {
+  border-left: 5px solid rgb(146, 5, 5);
 }
 .notification-enter-from,
 .notification-leave-to {
