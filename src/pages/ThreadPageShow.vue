@@ -1,5 +1,5 @@
 <template>
-  <div class="col-large push-top">
+  <div v-if="asyncDataStatus_ready" class="col-large push-top">
     <h1>
       {{ thread.title }}
       <router-link
@@ -10,11 +10,13 @@
       </router-link>
     </h1>
     <p>
-      By <a href="#" class="link-unstyled">{{thread.author?.name}}</a>, <AppDate :timestamp="thread.publishedAt" />.
+      By <a href="#" class="link-unstyled">{{ thread.author?.name }}</a
+      >, <AppDate :timestamp="thread.publishedAt" />.
       <span
-        style="float:right; margin-top: 2px;"
+        style="float: right; margin-top: 2px"
         class="hide-mobile text-faded text-small"
-        >{{thread.repliesCount}} replies by {{thread.contributorsCount}} contributors</span
+        >{{ thread.repliesCount }} replies by
+        {{ thread.contributorsCount }} contributors</span
       >
     </p>
 
@@ -28,12 +30,14 @@
 import PostsList from '@/components/PostsList'
 import PostEditor from '@/components/PostEditor'
 import { mapActions } from 'vuex'
+import asyncDataStatus from '@/mixins/asyncDataStatus'
 export default {
   name: 'ThreadShow',
   components: {
     PostsList,
     PostEditor
   },
+  mixins: [asyncDataStatus],
   props: {
     id: {
       required: true,
@@ -51,11 +55,17 @@ export default {
       return this.$store.getters.thread(this.id)
     },
     threadPosts () {
-      return this.posts.filter(post => post.threadId === this.id)
+      return this.posts.filter((post) => post.threadId === this.id)
     }
   },
   methods: {
-    ...mapActions(['createPost', 'fetchThread', 'fetchUser', 'fetchPosts', 'fetchUsers']),
+    ...mapActions([
+      'createPost',
+      'fetchThread',
+      'fetchUser',
+      'fetchPosts',
+      'fetchUsers'
+    ]),
     addPost (eventData) {
       const post = {
         ...eventData.post,
@@ -74,8 +84,9 @@ export default {
     // fetch the posts
     const posts = await this.fetchPosts({ ids: thread.posts })
 
-    const users = posts.map(post => post.userId).concat(thread.userId)
-    this.fetchUsers({ ids: users })
+    const users = posts.map((post) => post.userId).concat(thread.userId)
+    await this.fetchUsers({ ids: users })
+    this.asyncDataStatus_fetched()
   }
 }
 </script>

@@ -7,15 +7,41 @@ import CategoryPage from '@/pages/CategoryPage'
 import ProfilePage from '@/pages/ProfilePage'
 import ThreadCreate from '@/pages/ThreadCreate'
 import ThreadEdit from '@/pages/ThreadEdit'
+import store from '@/store'
 
 const routes = [
   { path: '/', name: 'Home', component: HomePage },
   { path: '/forum/:id', name: 'ForumPage', component: ForumPage, props: true },
-  { path: '/category/:id', name: 'CategoryPage', component: CategoryPage, props: true },
-  { path: '/me', name: 'ProfilePage', component: ProfilePage, meta: { toTop: true, smoothScroll: true } },
-  { path: '/me/edit', name: 'ProfileEdit', component: ProfilePage, props: { edit: true } },
-  { path: '/forum/:forumId/thread/create', name: 'ThreadCreate', component: ThreadCreate, props: true },
-  { path: '/thread/:id/edit', name: 'ThreadEdit', component: ThreadEdit, props: true },
+  {
+    path: '/category/:id',
+    name: 'CategoryPage',
+    component: CategoryPage,
+    props: true
+  },
+  {
+    path: '/me',
+    name: 'ProfilePage',
+    component: ProfilePage,
+    meta: { toTop: true, smoothScroll: true }
+  },
+  {
+    path: '/me/edit',
+    name: 'ProfileEdit',
+    component: ProfilePage,
+    props: { edit: true }
+  },
+  {
+    path: '/forum/:forumId/thread/create',
+    name: 'ThreadCreate',
+    component: ThreadCreate,
+    props: true
+  },
+  {
+    path: '/thread/:id/edit',
+    name: 'ThreadEdit',
+    component: ThreadEdit,
+    props: true
+  },
   {
     path: '/thread/:id',
     name: 'ThreadShow',
@@ -41,7 +67,7 @@ const threadExists = dataJson.threads.find(
   { path: '/:pathMatch(.*)*', name: 'NotFound', component: NotFound }
 ]
 
-export default createRouter({
+const router = createRouter({
   history: createWebHistory(),
   routes,
   scrollBehavior (to) {
@@ -51,3 +77,9 @@ export default createRouter({
     return scroll
   }
 })
+
+router.beforeEach(() => {
+  store.dispatch('unsubscribeAllSnapshots')
+})
+
+export default router
