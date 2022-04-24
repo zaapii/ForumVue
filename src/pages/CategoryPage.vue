@@ -12,7 +12,7 @@
 
 <script>
 import ForumList from '@/components/ForumList.vue'
-import {mapActions} from 'vuex'
+import { mapActions } from 'vuex'
 export default {
   components: { ForumList },
   props: {
@@ -30,7 +30,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(["fetchCategory", "fetchForums"]),
+    ...mapActions(['fetchCategory', 'fetchForums']),
     getForumsForCategory (category) {
       return this.$store.state.forums.filter(forum => forum.categoryId === category.id)
     }

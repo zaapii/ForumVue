@@ -9,7 +9,7 @@
 
 <script>
 import CategoryList from '@/components/CategoryList.vue'
-import {mapActions} from 'vuex'
+import { mapActions } from 'vuex'
 export default {
   components: {
     CategoryList

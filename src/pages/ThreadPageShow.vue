@@ -27,7 +27,7 @@
 <script>
 import PostsList from '@/components/PostsList'
 import PostEditor from '@/components/PostEditor'
-import {mapActions} from 'vuex'
+import { mapActions } from 'vuex'
 export default {
   name: 'ThreadShow',
   components: {
@@ -55,7 +55,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(["createPost", "fetchThread", "fetchUser", "fetchPosts", "fetchUsers"]),
+    ...mapActions(['createPost', 'fetchThread', 'fetchUser', 'fetchPosts', 'fetchUsers']),
     addPost (eventData) {
       const post = {
         ...eventData.post,

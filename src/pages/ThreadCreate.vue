@@ -10,7 +10,7 @@
 <script>
 import ThreadEditor from '@/components/ThreadEditor'
 import { findById } from '@/helpers'
-import {mapActions} from 'vuex'
+import { mapActions } from 'vuex'
 
 export default {
   components: { ThreadEditor },
@@ -23,7 +23,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(["fetchForum"]),
+    ...mapActions(['fetchForum']),
     async save ({ title, text }) {
       const thread = await this.$store.dispatch('createThread', {
         forumId: this.forum.id,

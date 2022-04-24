@@ -20,8 +20,8 @@ const routes = [
     path: '/thread/:id',
     name: 'ThreadShow',
     component: ThreadPageShow,
-    props: true,
-/*     beforeEnter (to, from, next) {
+    props: true
+    /*     beforeEnter (to, from, next) {
 const threadExists = dataJson.threads.find(
         (thread) => thread.id === to.params.id
       )
@@ -35,7 +35,7 @@ const threadExists = dataJson.threads.find(
           query: to.query,
           hash: to.hash
         })
-      } 
+      }
     } */
   },
   { path: '/:pathMatch(.*)*', name: 'NotFound', component: NotFound }

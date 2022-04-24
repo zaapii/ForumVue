@@ -9,7 +9,7 @@
 </template>
 <script>
 import ThreadEditor from '@/components/ThreadEditor'
-import {mapActions} from 'vuex'
+import { mapActions } from 'vuex'
 export default {
   components: { ThreadEditor },
   props: {
@@ -24,13 +24,12 @@ export default {
       return post ? post.text : ''
     }
   },
-  async created()
-  {
-    const thread = await this.fetchThread({id: this.id})
-    this.fetchPost({id: thread.posts[0]})
+  async created () {
+    const thread = await this.fetchThread({ id: this.id })
+    this.fetchPost({ id: thread.posts[0] })
   },
   methods: {
-    ...mapActions(["updateThread", "fetchThread","fetchPost"]),
+    ...mapActions(['updateThread', 'fetchThread', 'fetchPost']),
     async save ({ title, text }) {
       const thread = await this.updateThread({
         id: this.id,

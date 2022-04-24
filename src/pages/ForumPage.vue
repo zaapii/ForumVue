@@ -23,7 +23,7 @@
 
 <script>
 import ThreadList from '@/components/ThreadList.vue'
-import {mapActions} from 'vuex'
+import { mapActions } from 'vuex'
 
 export default {
   components: { ThreadList },
@@ -34,7 +34,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(["fetchForum", "fetchThreads", "fetchUsers"])
+    ...mapActions(['fetchForum', 'fetchThreads', 'fetchUsers'])
   },
   async created () {
     const forum = await this.fetchForum({ id: this.id })
