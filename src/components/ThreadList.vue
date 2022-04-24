@@ -48,28 +48,28 @@ export default {
   props: {
     threads: {
       type: Array,
-      required: true,
+      required: true
     },
     forumId: {
-      type: String,
-    },
+      type: String
+    }
   },
   methods: {
-    postById(postId) {
-      return this.posts.find((p) => p.id === postId);
+    postById (postId) {
+      return this.posts.find((p) => p.id === postId)
     },
-    userById(userId) {
-      return this.users.find((u) => u.id === userId) || {};
-    },
+    userById (userId) {
+      return this.users.find((u) => u.id === userId) || {}
+    }
   },
   computed: {
-    posts() {
-      return this.$store.state.posts;
+    posts () {
+      return this.$store.state.posts
     },
 
-    users() {
-      return this.$store.state.users;
-    },
-  },
-};
+    users () {
+      return this.$store.state.users
+    }
+  }
+}
 </script>

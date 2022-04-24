@@ -27,6 +27,7 @@
 <script>
 import PostsList from '@/components/PostsList'
 import PostEditor from '@/components/PostEditor'
+import {mapActions} from 'vuex'
 export default {
   name: 'ThreadShow',
   components: {
@@ -54,6 +55,7 @@ export default {
     }
   },
   methods: {
+    ...mapActions(["createPost", "fetchThread", "fetchUser", "fetchPosts", "fetchUsers"]),
     addPost (eventData) {
       const post = {
         ...eventData.post,
@@ -64,16 +66,16 @@ export default {
   },
   async created () {
     // fetch the thread
-    const thread = await this.$store.dispatch('fetchThread', { id: this.id })
+    const thread = await this.fetchThread({ id: this.id })
 
     // fetch the user
-    this.$store.dispatch('fetchUser', { id: thread.userId })
+    this.fetchUser({ id: thread.userId })
 
     // fetch the posts
-    const posts = await this.$store.dispatch('fetchPosts', { ids: thread.posts })
+    const posts = await this.fetchPosts({ ids: thread.posts })
 
-    const users = posts.map(post => post.userId)
-    this.$store.dispatch('fetchUsers', { ids: users })
+    const users = posts.map(post => post.userId).concat(thread.userId)
+    this.fetchUsers({ ids: users })
   }
 }
 </script>
