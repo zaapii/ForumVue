@@ -1,7 +1,7 @@
-import firebase from "@/helpers/firebase";
-import { findById, docToResource } from "@/helpers";
+import firebase from '@/helpers/firebase'
+import { findById, docToResource } from '@/helpers'
 export default {
-  fetchItem(
+  fetchItem (
     { state, commit },
     { id, resource, handleUnsubscribe = null, once = false, onSnapshot = null }
   ) {
@@ -11,41 +11,41 @@ export default {
         .collection(resource)
         .doc(id)
         .onSnapshot((doc) => {
-          if (once) unsubscribe();
+          if (once) unsubscribe()
           if (doc.exists) {
-            const item = { ...doc.data(), id: doc.id };
-            let previousItem = findById(state[resource].items, id);
-            previousItem = previousItem ? { ...previousItem } : null;
-            commit("setItem", { resource, item });
-            if (typeof onSnapshot === "function") {
-              const isLocal = doc.metadata.hasPendingWrites;
-              onSnapshot({ item: { ...item }, previousItem, isLocal });
+            const item = { ...doc.data(), id: doc.id }
+            let previousItem = findById(state[resource].items, id)
+            previousItem = previousItem ? { ...previousItem } : null
+            commit('setItem', { resource, item })
+            if (typeof onSnapshot === 'function') {
+              const isLocal = doc.metadata.hasPendingWrites
+              onSnapshot({ item: { ...item }, previousItem, isLocal })
             }
-            resolve(item);
+            resolve(item)
           } else {
-            resolve(null);
+            resolve(null)
           }
-        });
+        })
       if (handleUnsubscribe) {
-        handleUnsubscribe(unsubscribe);
+        handleUnsubscribe(unsubscribe)
       } else {
-        commit("appendUnsubscribe", { unsubscribe });
+        commit('appendUnsubscribe', { unsubscribe })
       }
-    });
+    })
   },
-  fetchItems({ dispatch }, { ids, resource, emoji, onSnapshot = null }) {
-    ids = ids || [];
+  fetchItems ({ dispatch }, { ids, resource, emoji, onSnapshot = null }) {
+    ids = ids || []
     return Promise.all(
       ids.map((id) =>
-        dispatch("fetchItem", { id, resource, emoji, onSnapshot })
+        dispatch('fetchItem', { id, resource, emoji, onSnapshot })
       )
-    );
+    )
   },
-  clearItems({ commit }, { modules = [] }) {
-    commit("clearItems", { modules });
+  clearItems ({ commit }, { modules = [] }) {
+    commit('clearItems', { modules })
   },
-  async unsubscribeAllSnapshots({ state, commit }) {
-    state.unsubscribes.forEach((unsubscribe) => unsubscribe());
-    commit("clearAllUnsubscribes");
-  },
-};
+  async unsubscribeAllSnapshots ({ state, commit }) {
+    state.unsubscribes.forEach((unsubscribe) => unsubscribe())
+    commit('clearAllUnsubscribes')
+  }
+}

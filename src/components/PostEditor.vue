@@ -19,30 +19,30 @@
 
 <script>
 export default {
-  data() {
+  data () {
     return {
       postCopy: { ...this.post },
-      formKey: Math.random(),
-    };
+      formKey: Math.random()
+    }
   },
   props: {
     forumId: {
-      type: String,
+      type: String
     },
     post: {
       type: Object,
-      default: () => ({ text: null }),
-    },
+      default: () => ({ text: null })
+    }
   },
   methods: {
-    save() {
-      this.$emit("save", { post: this.postCopy });
-      this.postCopy.text = "";
-      this.formKey = Math.random();
+    save () {
+      this.$emit('save', { post: this.postCopy })
+      this.postCopy.text = ''
+      this.formKey = Math.random()
     },
-    cancel() {
-      this.$router.push({ name: "ForumPage", params: { id: this.forumId } });
-    },
-  },
-};
+    cancel () {
+      this.$router.push({ name: 'ForumPage', params: { id: this.forumId } })
+    }
+  }
+}
 </script>

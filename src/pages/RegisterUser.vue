@@ -63,41 +63,41 @@
 </template>
 <script>
 export default {
-  data() {
+  data () {
     return {
       avatarPreview: null,
       form: {
-        name: "",
-        username: "",
-        email: "",
-        password: "",
-        avatar: "",
-      },
-    };
+        name: '',
+        username: '',
+        email: '',
+        password: '',
+        avatar: ''
+      }
+    }
   },
   methods: {
-    async register() {
+    async register () {
       await this.$store.dispatch(
-        "auth/registerUserWithEmailAndPassword",
+        'auth/registerUserWithEmailAndPassword',
         this.form
-      );
-      this.$router.push("/");
+      )
+      this.$router.push('/')
     },
-    async registerWithGoogle() {
-      await this.$store.dispatch("auth/signInWithGoogle");
-      this.$router.push("/");
+    async registerWithGoogle () {
+      await this.$store.dispatch('auth/signInWithGoogle')
+      this.$router.push('/')
     },
-    handleImageUpload(e) {
-      this.form.avatar = e.target.files[0];
-      const reader = new FileReader();
+    handleImageUpload (e) {
+      this.form.avatar = e.target.files[0]
+      const reader = new FileReader()
       reader.onload = (event) => {
-        this.avatarPreview = event.target.result;
-      };
-      reader.readAsDataURL(this.form.avatar);
-    },
+        this.avatarPreview = event.target.result
+      }
+      reader.readAsDataURL(this.form.avatar)
+    }
   },
-  created() {
-    this.$emit("ready");
-  },
-};
+  created () {
+    this.$emit('ready')
+  }
+}
 </script>

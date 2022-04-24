@@ -94,98 +94,98 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
-import UserProfileCardEditorRandomAvatar from "./UserProfileCardEditorRandomAvatar";
-import UserProfileCardEditorReauthenticate from "./UserProfileCardEditorReauthenticate.vue";
-import useNotifications from "@/composables/useNotifications";
+import { mapActions } from 'vuex'
+import UserProfileCardEditorRandomAvatar from './UserProfileCardEditorRandomAvatar'
+import UserProfileCardEditorReauthenticate from './UserProfileCardEditorReauthenticate.vue'
+import useNotifications from '@/composables/useNotifications'
 export default {
-  setup() {
-    const { addNotification } = useNotifications();
-    return { addNotification };
+  setup () {
+    const { addNotification } = useNotifications()
+    return { addNotification }
   },
   components: {
     UserProfileCardEditorRandomAvatar,
-    UserProfileCardEditorReauthenticate,
+    UserProfileCardEditorReauthenticate
   },
-  data() {
+  data () {
     return {
       uploadingImage: false,
       activeUser: { ...this.user },
       locationOptions: [],
-      needsReAuth: false,
-    };
+      needsReAuth: false
+    }
   },
   props: {
     user: {
       type: Object,
-      required: true,
-    },
+      required: true
+    }
   },
   methods: {
-    ...mapActions("auth", ["uploadAvatar"]),
-    async handleAvatarUpload(e) {
-      this.uploadingImage = true;
-      const file = e.target.files[0];
-      const uploadedImage = await this.uploadAvatar({ file });
-      this.activeUser.avatar = uploadedImage || this.activeUser.avatar;
-      this.uploadingImage = false;
+    ...mapActions('auth', ['uploadAvatar']),
+    async handleAvatarUpload (e) {
+      this.uploadingImage = true
+      const file = e.target.files[0]
+      const uploadedImage = await this.uploadAvatar({ file })
+      this.activeUser.avatar = uploadedImage || this.activeUser.avatar
+      this.uploadingImage = false
     },
-    async loadLocationOptions() {
-      if (this.locationOptions.length) return;
-      const res = await fetch("https://restcountries.com/v3/all");
-      this.locationOptions = await res.json();
+    async loadLocationOptions () {
+      if (this.locationOptions.length) return
+      const res = await fetch('https://restcountries.com/v3/all')
+      this.locationOptions = await res.json()
     },
-    async handleRandomAvatarUpload() {
+    async handleRandomAvatarUpload () {
       const randomAvatarGenerated =
-        this.activeUser.avatar.startsWith("https://pixabay");
+        this.activeUser.avatar.startsWith('https://pixabay')
       if (randomAvatarGenerated) {
-        const image = await fetch(this.activeUser.avatar);
-        const blob = await image.blob();
+        const image = await fetch(this.activeUser.avatar)
+        const blob = await image.blob()
         this.activeUser.avatar = await this.uploadAvatar({
           file: blob,
-          filename: "random",
-        });
+          filename: 'random'
+        })
       }
     },
-    async onReauthenticated() {
-      await this.$store.dispatch("auth/updateEmail", {
-        email: this.activeUser.email,
-      });
-      this.saveUserData();
+    async onReauthenticated () {
+      await this.$store.dispatch('auth/updateEmail', {
+        email: this.activeUser.email
+      })
+      this.saveUserData()
     },
-    async onReauthenticatedFailed() {
+    async onReauthenticatedFailed () {
       this.addNotification({
-        message: "Error updating user",
-        type: "error",
-        timeout: 3000,
-      });
-      this.$router.push({ name: "ProfilePage" });
+        message: 'Error updating user',
+        type: 'error',
+        timeout: 3000
+      })
+      this.$router.push({ name: 'ProfilePage' })
     },
-    async saveUserData() {
-      await this.$store.dispatch("users/updateUser", {
+    async saveUserData () {
+      await this.$store.dispatch('users/updateUser', {
         ...this.activeUser,
-        threads: this.activeUser.threadIds,
-      });
-      this.$router.push({ name: "ProfilePage" });
+        threads: this.activeUser.threadIds
+      })
+      this.$router.push({ name: 'ProfilePage' })
       this.addNotification({
-        message: "User successfully updated",
-        timeout: 3000,
-      });
+        message: 'User successfully updated',
+        timeout: 3000
+      })
     },
-    async save() {
-      await this.handleRandomAvatarUpload();
-      const emailChanged = this.activeUser.email !== this.user.email;
+    async save () {
+      await this.handleRandomAvatarUpload()
+      const emailChanged = this.activeUser.email !== this.user.email
       if (emailChanged) {
-        this.needsReAuth = true;
+        this.needsReAuth = true
       } else {
-        this.saveUserData();
+        this.saveUserData()
       }
     },
-    cancel() {
-      this.$router.push({ name: "ProfilePage" });
-    },
-  },
-};
+    cancel () {
+      this.$router.push({ name: 'ProfilePage' })
+    }
+  }
+}
 </script>
 
 <style></style>

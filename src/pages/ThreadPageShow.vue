@@ -43,56 +43,56 @@
 </template>
 
 <script>
-import PostsList from "@/components/PostsList";
-import PostEditor from "@/components/PostEditor";
-import { mapActions, mapGetters } from "vuex";
-import asyncDataStatus from "@/mixins/asyncDataStatus";
-import useNotifications from "@/composables/useNotifications";
-import difference from "lodash/difference";
+import PostsList from '@/components/PostsList'
+import PostEditor from '@/components/PostEditor'
+import { mapActions, mapGetters } from 'vuex'
+import asyncDataStatus from '@/mixins/asyncDataStatus'
+import useNotifications from '@/composables/useNotifications'
+import difference from 'lodash/difference'
 export default {
-  name: "ThreadShow",
+  name: 'ThreadShow',
   components: {
     PostsList,
-    PostEditor,
+    PostEditor
   },
   mixins: [asyncDataStatus],
   props: {
     id: {
       required: true,
-      type: String,
-    },
+      type: String
+    }
   },
-  setup() {
-    const { addNotification } = useNotifications();
-    return { addNotification };
+  setup () {
+    const { addNotification } = useNotifications()
+    return { addNotification }
   },
   computed: {
-    ...mapGetters("auth", ["authUser"]),
-    threads() {
-      return this.$store.state.threads.items;
+    ...mapGetters('auth', ['authUser']),
+    threads () {
+      return this.$store.state.threads.items
     },
-    posts() {
-      return this.$store.state.posts.items;
+    posts () {
+      return this.$store.state.posts.items
     },
-    thread() {
-      return this.$store.getters["threads/thread"](this.id);
+    thread () {
+      return this.$store.getters['threads/thread'](this.id)
     },
-    threadPosts() {
-      return this.posts.filter((post) => post.threadId === this.id);
-    },
+    threadPosts () {
+      return this.posts.filter((post) => post.threadId === this.id)
+    }
   },
   methods: {
-    ...mapActions("threads", ["fetchThread"]),
-    ...mapActions("users", ["fetchUsers"]),
-    ...mapActions("posts", ["fetchPosts", "createPost"]),
-    addPost(eventData) {
+    ...mapActions('threads', ['fetchThread']),
+    ...mapActions('users', ['fetchUsers']),
+    ...mapActions('posts', ['fetchPosts', 'createPost']),
+    addPost (eventData) {
       const post = {
         ...eventData.post,
-        threadId: this.id,
-      };
-      this.createPost(post);
+        threadId: this.id
+      }
+      this.createPost(post)
     },
-    async fetchPostsWithUsers(ids) {
+    async fetchPostsWithUsers (ids) {
       // fetch the posts
       const posts = await this.fetchPosts({
         ids,
@@ -102,39 +102,39 @@ export default {
             isLocal ||
             (previousItem?.edited && !previousItem?.edited?.at)
           ) {
-            return;
+            return
           }
           this.addNotification({
-            message: "Thread recently updated",
-            timeout: 5000,
-          });
-        },
-      });
+            message: 'Thread recently updated',
+            timeout: 5000
+          })
+        }
+      })
       // fetch the users associated with the posts
-      const users = posts.map((post) => post.userId).concat(this.thread.userId);
-      await this.fetchUsers({ ids: users });
-    },
+      const users = posts.map((post) => post.userId).concat(this.thread.userId)
+      await this.fetchUsers({ ids: users })
+    }
   },
-  async created() {
+  async created () {
     // fetch the thread
     const thread = await this.fetchThread({
       id: this.id,
       onSnapshot: async ({ isLocal, item, previousItem }) => {
-        if (!this.asyncDataStatus_ready || isLocal) return;
-        const newPosts = difference(item.posts, previousItem.posts);
-        const hasNewPosts = newPosts.length > 0;
+        if (!this.asyncDataStatus_ready || isLocal) return
+        const newPosts = difference(item.posts, previousItem.posts)
+        const hasNewPosts = newPosts.length > 0
         if (hasNewPosts) {
-          await this.fetchPostsWithUsers(newPosts);
+          await this.fetchPostsWithUsers(newPosts)
         } else {
           this.addNotification({
-            message: "Thread recently updated",
-            timeout: 5000,
-          });
+            message: 'Thread recently updated',
+            timeout: 5000
+          })
         }
-      },
-    });
-    await this.fetchPostsWithUsers(thread.posts);
-    this.asyncDataStatus_fetched();
-  },
-};
+      }
+    })
+    await this.fetchPostsWithUsers(thread.posts)
+    this.asyncDataStatus_fetched()
+  }
+}
 </script>
