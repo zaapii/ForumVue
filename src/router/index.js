@@ -18,7 +18,7 @@ const routes = [
     path: "/logout",
     name: "SignOut",
     async beforeEnter(to, from) {
-      await store.dispatch("signOut");
+      await store.dispatch("auth/signOut");
       return { name: "Home" };
     },
   },
@@ -74,9 +74,9 @@ const routes = [
     component: ThreadPageShow,
     props: true,
     async beforeEnter(to, from, next) {
-      await store.dispatch("fetchThread", { id: to.params.id });
-      const threadExists = findById(store.state.threads, to.params.id);
-
+      await store.dispatch("threads/fetchThread", { id: to.params.id });
+      const threadExists = findById(store.state.threads.items, to.params.id);
+      console.log(threadExists);
       if (threadExists) {
         return next();
       } else {
@@ -104,12 +104,12 @@ const router = createRouter({
 });
 
 router.beforeEach(async (to, from) => {
-  await store.dispatch("initAuthentication");
+  await store.dispatch("auth/initAuthentication");
   store.dispatch("unsubscribeAllSnapshots");
-  if (to.meta.requiresAuth && !store.state.authId) {
+  if (to.meta.requiresAuth && !store.state.auth.authId) {
     return { name: "LoginUser", query: { redirectTo: to.path } };
   }
-  if (to.meta.requiresGuest && store.state.authId) {
+  if (to.meta.requiresGuest && store.state.auth.authId) {
     return { name: "Home" };
   }
 });

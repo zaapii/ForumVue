@@ -1,43 +1,43 @@
-import firebase from "firebase";
+import firebase from 'firebase'
 export default {
   namespaced: true,
   state: {
-    items: [],
+    items: []
   },
   getters: {},
   actions: {
     fetchCategory: ({ dispatch }, { id }) =>
       dispatch(
-        "fetchItem",
-        { emoji: "🏷", resource: "categories", id },
+        'fetchItem',
+        { emoji: '🏷', resource: 'categories', id },
         { root: true }
       ),
     fetchCategories: ({ dispatch }, { ids }) =>
       dispatch(
-        "fetchItems",
-        { resource: "categories", ids, emoji: "🏷" },
+        'fetchItems',
+        { resource: 'categories', ids, emoji: '🏷' },
         { root: true }
       ),
-    fetchAllCategories({ commit }) {
-      console.log("🔥", "🏷", "all");
+    fetchAllCategories ({ commit }) {
+      console.log('🔥', '🏷', 'all')
       return new Promise((resolve) => {
         firebase
           .firestore()
-          .collection("categories")
+          .collection('categories')
           .onSnapshot((querySnapshot) => {
             const categories = querySnapshot.docs.map((doc) => {
-              const item = { id: doc.id, ...doc.data() };
+              const item = { id: doc.id, ...doc.data() }
               commit(
-                "setItem",
-                { resource: "categories", item },
+                'setItem',
+                { resource: 'categories', item },
                 { root: true }
-              );
-              return item;
-            });
-            resolve(categories);
-          });
-      });
-    },
+              )
+              return item
+            })
+            resolve(categories)
+          })
+      })
+    }
   },
-  mutations: {},
-};
+  mutations: {}
+}

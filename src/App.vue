@@ -7,36 +7,36 @@
 </template>
 
 <script>
-import TheNavbar from "./components/TheNavbar.vue";
-import { mapActions } from "vuex";
-import NProgress from "nprogress";
+import TheNavbar from './components/TheNavbar.vue'
+import { mapActions } from 'vuex'
+import NProgress from 'nprogress'
 export default {
   components: { TheNavbar },
-  name: "App",
-  created() {
+  name: 'App',
+  created () {
     NProgress.configure({
       speed: 200,
-      showSpinner: false,
-    });
-    this.fetchAuthUser();
+      showSpinner: false
+    })
+    this.fetchAuthUser()
     this.$router.beforeEach(() => {
-      this.showPage = false;
-      NProgress.start();
-    });
+      this.showPage = false
+      NProgress.start()
+    })
   },
   methods: {
-    ...mapActions(["fetchAuthUser"]),
-    onPageReady() {
-      this.showPage = true;
-      NProgress.done();
-    },
+    ...mapActions('auth', ['fetchAuthUser']),
+    onPageReady () {
+      this.showPage = true
+      NProgress.done()
+    }
   },
-  data() {
+  data () {
     return {
-      showPage: false,
-    };
-  },
-};
+      showPage: false
+    }
+  }
+}
 </script>
 
 <style>

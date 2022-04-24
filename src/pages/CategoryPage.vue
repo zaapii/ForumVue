@@ -14,6 +14,7 @@
 import ForumList from '@/components/ForumList.vue'
 import { mapActions } from 'vuex'
 import asyncDataStatus from '@/mixins/asyncDataStatus'
+import { findById } from '@/helpers'
 export default {
   components: { ForumList },
   props: {
@@ -30,17 +31,14 @@ export default {
       )
     },
     category () {
-      return (
-        this.$store.state.categories.find(
-          (category) => category.id === this.id
-        ) || {}
-      )
+      return findById(this.$store.state.categories.items, this.id) || {}
     }
   },
   methods: {
-    ...mapActions(['fetchCategory', 'fetchForums']),
+    ...mapActions('categories', ['fetchCategory']),
+    ...mapActions('forums', ['fetchForums']),
     getForumsForCategory (category) {
-      return this.$store.state.forums.filter(
+      return this.$store.state.forums.items.filter(
         (forum) => forum.categoryId === category.id
       )
     }

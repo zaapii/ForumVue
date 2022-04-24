@@ -44,36 +44,36 @@
 </template>
 <script>
 export default {
-  data() {
+  data () {
     return {
       form: {
-        email: "",
-        password: "",
-      },
-    };
+        email: '',
+        password: ''
+      }
+    }
   },
   methods: {
-    async signIn() {
+    async signIn () {
       try {
-        await this.$store.dispatch("signInWithEmailAndPassword", {
-          ...this.form,
-        });
-        this.successRedirect();
+        await this.$store.dispatch('auth/signInWithEmailAndPassword', {
+          ...this.form
+        })
+        this.successRedirect()
       } catch (error) {
-        alert(error.message);
+        alert(error.message)
       }
     },
-    async signInWithGoogle() {
-      await this.$store.dispatch("signInWithGoogle");
-      this.successRedirect();
+    async signInWithGoogle () {
+      await this.$store.dispatch('auth/signInWithGoogle')
+      this.successRedirect()
     },
-    successRedirect() {
-      const redirectTo = this.$route.query.redirectTo || { name: "Home" };
-      this.$router.push(redirectTo);
-    },
+    successRedirect () {
+      const redirectTo = this.$route.query.redirectTo || { name: 'Home' }
+      this.$router.push(redirectTo)
+    }
   },
-  created() {
-    this.$emit("ready");
-  },
-};
+  created () {
+    this.$emit('ready')
+  }
+}
 </script>

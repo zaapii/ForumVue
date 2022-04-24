@@ -13,52 +13,53 @@
   </div>
 </template>
 <script>
-import ThreadEditor from '@/components/ThreadEditor'
-import { findById } from '@/helpers'
-import { mapActions } from 'vuex'
-import asyncDataStatus from '@/mixins/asyncDataStatus'
+import ThreadEditor from "@/components/ThreadEditor";
+import { findById } from "@/helpers";
+import { mapActions } from "vuex";
+import asyncDataStatus from "@/mixins/asyncDataStatus";
 
 export default {
   components: { ThreadEditor },
   props: {
-    forumId: { type: String, required: true }
+    forumId: { type: String, required: true },
   },
-  data () {
+  data() {
     return {
-      formIsDirty: false
-    }
+      formIsDirty: false,
+    };
   },
   mixins: [asyncDataStatus],
   computed: {
-    forum () {
-      return findById(this.$store.state.forums, this.forumId)
-    }
+    forum() {
+      return findById(this.$store.state.forums.items, this.forumId);
+    },
   },
-  beforeRouteLeave () {
+  beforeRouteLeave() {
     if (this.formIsDirty) {
       const confirmed = window.confirm(
-        'Are you sure you want to leave? Unsaved changes will be lost!'
-      )
-      if (!confirmed) return false
+        "Are you sure you want to leave? Unsaved changes will be lost!"
+      );
+      if (!confirmed) return false;
     }
   },
   methods: {
-    ...mapActions(['fetchForum']),
-    async save ({ title, text }) {
-      const thread = await this.$store.dispatch('createThread', {
+    ...mapActions("forums", ["fetchForum"]),
+    ...mapActions("threads", ["createThread"]),
+    async save({ title, text }) {
+      const thread = await this.createThread({
         forumId: this.forum.id,
         title,
-        text
-      })
-      this.$router.push({ name: 'ThreadShow', params: { id: thread.id } })
+        text,
+      });
+      this.$router.push({ name: "ThreadShow", params: { id: thread.id } });
     },
-    cancel () {
-      this.$router.push({ name: 'ForumPage', params: { id: this.forum.id } })
-    }
+    cancel() {
+      this.$router.push({ name: "ForumPage", params: { id: this.forum.id } });
+    },
   },
-  async created () {
-    await this.fetchForum({ id: this.forumId })
-    this.asyncDataStatus_fetched()
-  }
-}
+  async created() {
+    await this.fetchForum({ id: this.forumId });
+    this.asyncDataStatus_fetched();
+  },
+};
 </script>

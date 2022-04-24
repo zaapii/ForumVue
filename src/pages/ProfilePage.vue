@@ -18,23 +18,23 @@
   </div>
 </template>
 <script>
-import PostsList from "@/components/PostsList";
-import UserProfileCard from "@/components/UserProfileCard";
-import UserProfileCardEditor from "@/components/UserProfileCardEditor";
-import { mapGetters } from "vuex";
-import asyncDataStatus from "@/mixins/asyncDataStatus";
+import PostsList from '@/components/PostsList'
+import UserProfileCard from '@/components/UserProfileCard'
+import UserProfileCardEditor from '@/components/UserProfileCardEditor'
+import { mapGetters } from 'vuex'
+import asyncDataStatus from '@/mixins/asyncDataStatus'
 export default {
   components: { PostsList, UserProfileCard, UserProfileCardEditor },
   mixins: [asyncDataStatus],
   props: {
-    edit: { type: Boolean, default: false },
+    edit: { type: Boolean, default: false }
   },
   computed: {
-    ...mapGetters({ user: "authUser" }),
+    ...mapGetters('auth', { user: 'authUser' })
   },
-  async created() {
-    await this.$store.dispatch("fetchAuthUsersPosts");
-    this.asyncDataStatus_fetched();
-  },
-};
+  async created () {
+    await this.$store.dispatch('auth/fetchAuthUsersPosts')
+    this.asyncDataStatus_fetched()
+  }
+}
 </script>

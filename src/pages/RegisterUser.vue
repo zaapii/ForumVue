@@ -85,11 +85,14 @@ export default {
         .auth()
         .createUserWithEmailAndPassword(this.form.email, this.form.password)
       console.log(result.i)
-      await this.$store.dispatch('registerUserWithEmailAndPassword', this.form)
+      await this.$store.dispatch(
+        'auth/registerUserWithEmailAndPassword',
+        this.form
+      )
       this.$router.push('/')
     },
     async registerWithGoogle () {
-      await this.$store.dispatch('signInWithGoogle')
+      await this.$store.dispatch('auth/signInWithGoogle')
       this.$router.push('/')
     }
   },

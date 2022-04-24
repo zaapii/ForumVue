@@ -25,7 +25,8 @@
 
     <post-editor v-if="authUser" @save="addPost" />
     <div v-else class="text-center" style="margin-bottom: 50px">
-      <router-link :to="{ name: 'SignIn', query: { redirectTo: $route.path } }"
+      <router-link
+        :to="{ name: 'LoginUser', query: { redirectTo: $route.path } }"
         >Sign In</router-link
       >
       or
@@ -57,28 +58,25 @@ export default {
     },
   },
   computed: {
-    ...mapGetters(["authUser"]),
+    ...mapGetters("auth", ["authUser"]),
     threads() {
-      return this.$store.state.threads;
+      return this.$store.state.threads.items;
     },
     posts() {
-      return this.$store.state.posts;
+      return this.$store.state.posts.items;
     },
     thread() {
-      return this.$store.getters.thread(this.id);
+      console.log(this.$store.getters["threads/thread"](this.id));
+      return this.$store.getters["threads/thread"](this.id);
     },
     threadPosts() {
       return this.posts.filter((post) => post.threadId === this.id);
     },
   },
   methods: {
-    ...mapActions([
-      "createPost",
-      "fetchThread",
-      "fetchUser",
-      "fetchPosts",
-      "fetchUsers",
-    ]),
+    ...mapActions("threads", ["fetchThread"]),
+    ...mapActions("users", ["fetchUsers"]),
+    ...mapActions("posts", ["fetchPosts", "createPost"]),
     addPost(eventData) {
       const post = {
         ...eventData.post,
@@ -90,9 +88,6 @@ export default {
   async created() {
     // fetch the thread
     const thread = await this.fetchThread({ id: this.id });
-
-    // fetch the user
-    this.fetchUser({ id: thread.userId });
 
     // fetch the posts
     const posts = await this.fetchPosts({ ids: thread.posts });

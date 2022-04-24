@@ -18,6 +18,7 @@
 import ThreadEditor from '@/components/ThreadEditor'
 import { mapActions } from 'vuex'
 import asyncDataStatus from '@/mixins/asyncDataStatus'
+import { findById } from '@/helpers'
 export default {
   components: { ThreadEditor },
   props: {
@@ -39,11 +40,12 @@ export default {
   mixins: [asyncDataStatus],
   computed: {
     thread () {
-      return this.$store.state.threads.find((thread) => thread.id === this.id)
+      return findById(this.$store.state.threads.items, this.id)
     },
     text () {
-      const post = this.$store.state.posts.find(
-        (post) => post.id === this.thread.posts[0]
+      const post = findById(
+        this.$store.state.posts.items,
+        this.thread.posts[0]
       )
       return post ? post.text : ''
     }
@@ -54,7 +56,8 @@ export default {
     this.asyncDataStatus_fetched()
   },
   methods: {
-    ...mapActions(['updateThread', 'fetchThread', 'fetchPost']),
+    ...mapActions('threads', ['fetchThread', 'updateThread']),
+    ...mapActions('posts', ['fetchPost']),
     async save ({ title, text }) {
       const thread = await this.updateThread({
         id: this.id,

@@ -33,7 +33,7 @@
           </p>
         </div>
         <a
-          v-if="post.userId === $store.state.authId"
+          v-if="post.userId === $store.state.auth.authId"
           @click.prevent="toggleEditMode(post.id)"
           href="#"
           style="margin-left: auto; padding-left: 10px"
@@ -59,7 +59,7 @@ export default {
   components: { PostEditor },
   computed: {
     users () {
-      return this.$store.state.users
+      return this.$store.state.users.items
     }
   },
   data () {
@@ -74,13 +74,13 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['updatePost']),
+    ...mapActions('posts', ['updatePost']),
     handleUpdate (event) {
       this.updatePost(event.post)
       this.editing = null
     },
     userById (userId) {
-      return this.$store.getters.user(userId)
+      return this.$store.getters['users/user'](userId)
     },
     toggleEditMode (id) {
       this.editing = id === this.editing ? null : id

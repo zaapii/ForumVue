@@ -1,8 +1,10 @@
 <template>
-    <h2 class="list-title">
-        <router-link :to="{name:'CategoryPage', params: {id: category.id}}">{{category.name}}</router-link>
-    </h2>
-    <forum-list :forums="forums"/>
+  <h2 class="list-title">
+    <router-link :to="{ name: 'CategoryPage', params: { id: category.id } }">{{
+      category.name
+    }}</router-link>
+  </h2>
+  <forum-list :forums="forums" />
 </template>
 
 <script>
@@ -17,12 +19,12 @@ export default {
   },
   computed: {
     forums () {
-      return this.$store.state.forums.filter(forum => forum.categoryId === this.category.id)
+      return this.$store.state.forums.items.filter(
+        (forum) => forum.categoryId === this.category.id
+      )
     }
   }
 }
 </script>
 
-<style>
-
-</style>
+<style></style>
