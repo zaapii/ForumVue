@@ -1,42 +1,46 @@
 <template>
   <the-navbar />
   <div class="container">
-    <router-view @ready="onPageReady" v-show="showPage" :key="$route.path" />
+    <router-view
+      @ready="onPageReady"
+      v-show="showPage"
+      :key="`${$route.path}${JSON.stringify($route.query)}`"
+    />
     <app-spinner class="push-top" v-show="!showPage" />
   </div>
 </template>
 
 <script>
-import TheNavbar from './components/TheNavbar.vue'
-import { mapActions } from 'vuex'
-import NProgress from 'nprogress'
+import TheNavbar from "./components/TheNavbar.vue";
+import { mapActions } from "vuex";
+import NProgress from "nprogress";
 export default {
   components: { TheNavbar },
-  name: 'App',
-  created () {
+  name: "App",
+  created() {
     NProgress.configure({
       speed: 200,
-      showSpinner: false
-    })
-    this.fetchAuthUser()
+      showSpinner: false,
+    });
+    this.fetchAuthUser();
     this.$router.beforeEach(() => {
-      this.showPage = false
-      NProgress.start()
-    })
+      this.showPage = false;
+      NProgress.start();
+    });
   },
   methods: {
-    ...mapActions('auth', ['fetchAuthUser']),
-    onPageReady () {
-      this.showPage = true
-      NProgress.done()
-    }
+    ...mapActions("auth", ["fetchAuthUser"]),
+    onPageReady() {
+      this.showPage = true;
+      NProgress.done();
+    },
   },
-  data () {
+  data() {
     return {
-      showPage: false
-    }
-  }
-}
+      showPage: false,
+    };
+  },
+};
 </script>
 
 <style>

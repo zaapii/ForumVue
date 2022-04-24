@@ -590,6 +590,14 @@ figcaption {
     }
 }
 
+.Pagination{
+    justify-content: center;
+    margin: 40px !important;
+  }
+  .Pagination .Page-active{
+    color:white;
+  } 
+
 .post-content blockquote.simple .author {
     display: block;
     margin-top: 10px;
