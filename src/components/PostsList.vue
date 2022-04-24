@@ -2,9 +2,7 @@
   <div class="post-list">
     <div v-for="post in posts" :key="post.id" class="post">
       <div v-if="userById(post.userId)" class="user-info">
-        <a href="#" class="user-name">{{
-          userById(post.userId).name
-        }}</a>
+        <a href="#" class="user-name">{{ userById(post.userId).name }}</a>
 
         <a href="#">
           <img
@@ -14,8 +12,12 @@
           />
         </a>
 
-        <p class="desktop-only text-small">{{userById(post.userId).postsCount}} posts</p>
-        <p class="desktop-only text-small">{{userById(post.userId).threadsCount}} threads</p>
+        <p class="desktop-only text-small">
+          {{ userById(post.userId).postsCount }} posts
+        </p>
+        <p class="desktop-only text-small">
+          {{ userById(post.userId).threadsCount }} threads
+        </p>
       </div>
 
       <div class="post-content">
@@ -24,6 +26,14 @@
             {{ post.text }}
           </p>
         </div>
+        <a
+          href="#"
+          style="margin-left: auto; padding-left: 10px"
+          class="link-unstyled"
+          title="Make a change"
+        >
+          <fa icon="pencil-alt" />
+        </a>
       </div>
 
       <div class="post-date text-faded">
@@ -34,21 +44,22 @@
 </template>
 
 <script>
-
 export default {
   computed: {
-    users () { return this.$store.state.users }
+    users() {
+      return this.$store.state.users;
+    },
   },
   props: {
     posts: {
       type: Array,
-      required: true
-    }
+      required: true,
+    },
   },
   methods: {
-    userById (userId) {
-      return this.$store.getters.user(userId)
-    }
-  }
-}
+    userById(userId) {
+      return this.$store.getters.user(userId);
+    },
+  },
+};
 </script>
