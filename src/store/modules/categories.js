@@ -13,7 +13,6 @@ export default {
       resource: "categories",
     }),
     fetchAllCategories({ commit }) {
-      console.log("🔥", "🏷", "all");
       return new Promise((resolve) => {
         firebase
           .firestore()

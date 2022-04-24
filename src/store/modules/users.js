@@ -32,7 +32,7 @@ export default {
               (post) => post.userId === user.id
             );
           },
-          get theThreads() {
+          get threadIds() {
             return user.threads;
           },
           get threadsCount() {

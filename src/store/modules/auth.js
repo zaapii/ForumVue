@@ -17,7 +17,6 @@ export default {
       if (state.authObserverUnsubscribe) state.authObserverUnsubscribe();
       return new Promise((resolve) => {
         const unsubscribe = firebase.auth().onAuthStateChanged(async (user) => {
-          console.log("👣 the user has changed");
           this.dispatch("auth/unsubscribeAuthUserSnapshot");
           if (user) {
             await this.dispatch("auth/fetchAuthUser");
@@ -28,6 +27,18 @@ export default {
         });
         commit("setAuthObserverUnsubscribe", unsubscribe);
       });
+    },
+    async updateEmail({ state }, { email }) {
+      return firebase.auth().currentUser.updateEmail(email);
+    },
+    async reauthenticate({ state }, { email, password }) {
+      const credential = firebase.auth.EmailAuthProvider.credential(
+        email,
+        password
+      );
+      await firebase
+        .auth()
+        .currentUser.reauthenticateWithCredential(credential);
     },
     async registerUserWithEmailAndPassword(
       { dispatch },

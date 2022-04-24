@@ -79,7 +79,6 @@ const routes = [
         once: true,
       });
       const threadExists = findById(store.state.threads.items, to.params.id);
-      console.log(threadExists);
       if (threadExists) {
         return next();
       } else {
