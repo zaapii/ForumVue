@@ -1,7 +1,7 @@
-import { createStore } from "vuex";
-import mutations from "@/store//mutations";
-import actions from "@/store/actions";
-import getters from "@/store/getters";
+import { createStore } from 'vuex'
+import mutations from '@/store//mutations'
+import actions from '@/store/actions'
+import getters from '@/store/getters'
 export default createStore({
   state: {
     categories: [],
@@ -12,8 +12,9 @@ export default createStore({
     authId: null,
     unsubscribes: [],
     authUserUnsubscribe: null,
+    authObserverUnsubscribe: null
   },
   getters,
   actions,
-  mutations,
-});
+  mutations
+})

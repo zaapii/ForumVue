@@ -15,57 +15,57 @@
   </div>
 </template>
 <script>
-import ThreadEditor from "@/components/ThreadEditor";
-import { mapActions } from "vuex";
-import asyncDataStatus from "@/mixins/asyncDataStatus";
+import ThreadEditor from '@/components/ThreadEditor'
+import { mapActions } from 'vuex'
+import asyncDataStatus from '@/mixins/asyncDataStatus'
 export default {
   components: { ThreadEditor },
   props: {
-    id: { type: String, required: true },
+    id: { type: String, required: true }
   },
-  data() {
+  data () {
     return {
-      formIsDirty: false,
-    };
+      formIsDirty: false
+    }
   },
-  beforeRouteLeave() {
+  beforeRouteLeave () {
     if (this.formIsDirty) {
       const confirmed = window.confirm(
-        "Are you sure you want to leave? Unsaved changes will be lost!"
-      );
-      if (!confirmed) return false;
+        'Are you sure you want to leave? Unsaved changes will be lost!'
+      )
+      if (!confirmed) return false
     }
   },
   mixins: [asyncDataStatus],
   computed: {
-    thread() {
-      return this.$store.state.threads.find((thread) => thread.id === this.id);
+    thread () {
+      return this.$store.state.threads.find((thread) => thread.id === this.id)
     },
-    text() {
+    text () {
       const post = this.$store.state.posts.find(
         (post) => post.id === this.thread.posts[0]
-      );
-      return post ? post.text : "";
-    },
+      )
+      return post ? post.text : ''
+    }
   },
-  async created() {
-    const thread = await this.fetchThread({ id: this.id });
-    await this.fetchPost({ id: thread.posts[0] });
-    this.asyncDataStatus_fetched();
+  async created () {
+    const thread = await this.fetchThread({ id: this.id })
+    await this.fetchPost({ id: thread.posts[0] })
+    this.asyncDataStatus_fetched()
   },
   methods: {
-    ...mapActions(["updateThread", "fetchThread", "fetchPost"]),
-    async save({ title, text }) {
+    ...mapActions(['updateThread', 'fetchThread', 'fetchPost']),
+    async save ({ title, text }) {
       const thread = await this.updateThread({
         id: this.id,
         title,
-        text,
-      });
-      this.$router.push({ name: "ThreadShow", params: { id: thread.id } });
+        text
+      })
+      this.$router.push({ name: 'ThreadShow', params: { id: thread.id } })
     },
-    cancel() {
-      this.$router.push({ name: "ThreadShow", params: { id: this.id } });
-    },
-  },
-};
+    cancel () {
+      this.$router.push({ name: 'ThreadShow', params: { id: this.id } })
+    }
+  }
+}
 </script>

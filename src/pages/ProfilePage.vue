@@ -48,25 +48,21 @@
 
 <script>
 /* import PostsList from "@/components/PostsList.vue"; */
-import { mapGetters } from "vuex";
+import { mapGetters } from 'vuex'
 /* import UserProfileCard from "@/components/UserProfileCard";
 import UserProfileCardEditor from "@/components/UserProfileCardEditor"; */
-import store from "@/store";
 export default {
   /*     components: { PostsList, UserProfileCard, UserProfileCardEditor }, */
   computed: {
-    ...mapGetters({ user: "authUser" }),
-  },
-  beforeRouteEnter(to, from) {
-    if (!store.state.authId) return { name: "Home" };
+    ...mapGetters({ user: 'authUser' })
   },
   props: {
     edit: {
       type: Boolean,
-      default: false,
-    },
-  },
-};
+      default: false
+    }
+  }
+}
 </script>
 
 <style></style>

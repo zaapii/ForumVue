@@ -3,6 +3,7 @@
     <h1>
       {{ thread.title }}
       <router-link
+        v-if="thread.userId === authUser?.id"
         :to="{ name: 'ThreadEdit', id: this.id }"
         class="btn-green btn-small"
       >
@@ -22,71 +23,83 @@
 
     <posts-list :posts="threadPosts" />
 
-    <post-editor @save="addPost" />
+    <post-editor v-if="authUser" @save="addPost" />
+    <div v-else class="text-center" style="margin-bottom: 50px">
+      <router-link :to="{ name: 'SignIn', query: { redirectTo: $route.path } }"
+        >Sign In</router-link
+      >
+      or
+      <router-link
+        :to="{ name: 'Register', query: { redirectTo: $route.path } }"
+        >Register</router-link
+      >
+      to reply.
+    </div>
   </div>
 </template>
 
 <script>
-import PostsList from '@/components/PostsList'
-import PostEditor from '@/components/PostEditor'
-import { mapActions } from 'vuex'
-import asyncDataStatus from '@/mixins/asyncDataStatus'
+import PostsList from "@/components/PostsList";
+import PostEditor from "@/components/PostEditor";
+import { mapActions, mapGetters } from "vuex";
+import asyncDataStatus from "@/mixins/asyncDataStatus";
 export default {
-  name: 'ThreadShow',
+  name: "ThreadShow",
   components: {
     PostsList,
-    PostEditor
+    PostEditor,
   },
   mixins: [asyncDataStatus],
   props: {
     id: {
       required: true,
-      type: String
-    }
+      type: String,
+    },
   },
   computed: {
-    threads () {
-      return this.$store.state.threads
+    ...mapGetters(["authUser"]),
+    threads() {
+      return this.$store.state.threads;
     },
-    posts () {
-      return this.$store.state.posts
+    posts() {
+      return this.$store.state.posts;
     },
-    thread () {
-      return this.$store.getters.thread(this.id)
+    thread() {
+      return this.$store.getters.thread(this.id);
     },
-    threadPosts () {
-      return this.posts.filter((post) => post.threadId === this.id)
-    }
+    threadPosts() {
+      return this.posts.filter((post) => post.threadId === this.id);
+    },
   },
   methods: {
     ...mapActions([
-      'createPost',
-      'fetchThread',
-      'fetchUser',
-      'fetchPosts',
-      'fetchUsers'
+      "createPost",
+      "fetchThread",
+      "fetchUser",
+      "fetchPosts",
+      "fetchUsers",
     ]),
-    addPost (eventData) {
+    addPost(eventData) {
       const post = {
         ...eventData.post,
-        threadId: this.id
-      }
-      this.$store.dispatch('createPost', post)
-    }
+        threadId: this.id,
+      };
+      this.$store.dispatch("createPost", post);
+    },
   },
-  async created () {
+  async created() {
     // fetch the thread
-    const thread = await this.fetchThread({ id: this.id })
+    const thread = await this.fetchThread({ id: this.id });
 
     // fetch the user
-    this.fetchUser({ id: thread.userId })
+    this.fetchUser({ id: thread.userId });
 
     // fetch the posts
-    const posts = await this.fetchPosts({ ids: thread.posts })
+    const posts = await this.fetchPosts({ ids: thread.posts });
 
-    const users = posts.map((post) => post.userId).concat(thread.userId)
-    await this.fetchUsers({ ids: users })
-    this.asyncDataStatus_fetched()
-  }
-}
+    const users = posts.map((post) => post.userId).concat(thread.userId);
+    await this.fetchUsers({ ids: users });
+    this.asyncDataStatus_fetched();
+  },
+};
 </script>

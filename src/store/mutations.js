@@ -1,51 +1,54 @@
-import { upsert, findById, docToResource } from "@/helpers";
+import { upsert, findById, docToResource } from '@/helpers'
 export default {
-  setItem(state, { resource, item }) {
-    upsert(state[resource], docToResource(item));
+  setItem (state, { resource, item }) {
+    upsert(state[resource], docToResource(item))
   },
   appendPostToThread: makeAppendChildToParentMutation({
-    parent: "threads",
-    child: "posts",
+    parent: 'threads',
+    child: 'posts'
   }),
   appendThreadToForum: makeAppendChildToParentMutation({
-    parent: "forums",
-    child: "threads",
+    parent: 'forums',
+    child: 'threads'
   }),
   appendThreadToUser: makeAppendChildToParentMutation({
-    parent: "users",
-    child: "threads",
+    parent: 'users',
+    child: 'threads'
   }),
   appendContributorToThread: makeAppendChildToParentMutation({
-    parent: "threads",
-    child: "contributors",
+    parent: 'threads',
+    child: 'contributors'
   }),
-  appendUnsubscribe(state, { unsubscribe }) {
-    state.unsubscribes.push(unsubscribe);
+  appendUnsubscribe (state, { unsubscribe }) {
+    state.unsubscribes.push(unsubscribe)
   },
-  clearAllUnsubscribes(state) {
-    state.unsubscribes = [];
+  clearAllUnsubscribes (state) {
+    state.unsubscribes = []
   },
-  setAuthId(state, id) {
-    state.authId = id;
+  setAuthId (state, id) {
+    state.authId = id
   },
-  setAuthUserUnsubscribe(state, unsubscribe) {
-    state.authUserUnsubscribe = unsubscribe;
+  setAuthUserUnsubscribe (state, unsubscribe) {
+    state.authUserUnsubscribe = unsubscribe
   },
-};
+  setAuthObserverUnsubscribe (state, unsubscribe) {
+    state.authUserUnsubscribe = unsubscribe
+  }
+}
 
-function makeAppendChildToParentMutation({ parent, child }) {
+function makeAppendChildToParentMutation ({ parent, child }) {
   return (state, { childId, parentId }) => {
-    const resource = findById(state[parent], parentId);
+    const resource = findById(state[parent], parentId)
     if (!resource) {
       console.warn(
         `Appending ${child} ${childId} to ${parent} ${parentId} failed because the parent didn't exist`
-      );
-      return;
+      )
+      return
     }
-    resource[child] = resource[child] || [];
+    resource[child] = resource[child] || []
 
     if (!resource[child].includes(childId)) {
-      resource[child].push(childId);
+      resource[child].push(childId)
     }
-  };
+  }
 }

@@ -37,39 +37,39 @@
 <script>
 export default {
   props: {
-    title: { type: String, default: "" },
-    text: { type: String, default: "" },
+    title: { type: String, default: '' },
+    text: { type: String, default: '' }
   },
-  data() {
+  data () {
     return {
       form: {
         title: this.title,
-        text: this.text,
-      },
-    };
+        text: this.text
+      }
+    }
   },
   methods: {
-    save() {
-      this.$emit("save", { ...this.form });
-      this.$emit("clean");
-    },
+    save () {
+      this.$emit('save', { ...this.form })
+      this.$emit('clean')
+    }
   },
   watch: {
     form: {
-      handler() {
+      handler () {
         if (this.form.title !== this.title || this.form.text !== this.text) {
-          this.$emit("dirty");
+          this.$emit('dirty')
         } else {
-          this.$emit("clean");
+          this.$emit('clean')
         }
       },
-      deep: true,
-    },
+      deep: true
+    }
   },
   computed: {
-    existing() {
-      return !!this.title;
-    },
-  },
-};
+    existing () {
+      return !!this.title
+    }
+  }
+}
 </script>
