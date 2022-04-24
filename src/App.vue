@@ -8,14 +8,16 @@
     />
     <app-spinner class="push-top" v-show="!showPage" />
   </div>
+  <AppNotifications />
 </template>
 
 <script>
 import TheNavbar from "./components/TheNavbar.vue";
 import { mapActions } from "vuex";
 import NProgress from "nprogress";
+import AppNotifications from "@/components/AppNotifications";
 export default {
-  components: { TheNavbar },
+  components: { TheNavbar, AppNotifications },
   name: "App",
   created() {
     NProgress.configure({

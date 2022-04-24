@@ -108,23 +108,23 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters } from 'vuex'
 export default {
-  data() {
+  data () {
     return {
       userDropdownOpen: false,
-      mobileNavMenu: false,
-    };
+      mobileNavMenu: false
+    }
   },
   computed: {
-    ...mapGetters("auth", ["authUser"]),
+    ...mapGetters('auth', ['authUser'])
   },
-  created() {
+  created () {
     this.$router.beforeEach((to, from) => {
-      this.mobileNavMenu = false;
-    });
-  },
-};
+      this.mobileNavMenu = false
+    })
+  }
+}
 </script>
 
 <style scoped></style>

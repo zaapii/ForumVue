@@ -22,35 +22,35 @@
   </div>
 </template>
 <script>
-import PostsList from "@/components/PostsList";
-import UserProfileCard from "@/components/UserProfileCard";
-import UserProfileCardEditor from "@/components/UserProfileCardEditor";
-import { mapGetters } from "vuex";
-import asyncDataStatus from "@/mixins/asyncDataStatus";
+import PostsList from '@/components/PostsList'
+import UserProfileCard from '@/components/UserProfileCard'
+import UserProfileCardEditor from '@/components/UserProfileCardEditor'
+import { mapGetters } from 'vuex'
+import asyncDataStatus from '@/mixins/asyncDataStatus'
 export default {
   components: { PostsList, UserProfileCard, UserProfileCardEditor },
   mixins: [asyncDataStatus],
   props: {
-    edit: { type: Boolean, default: false },
+    edit: { type: Boolean, default: false }
   },
   computed: {
-    ...mapGetters("auth", { user: "authUser" }),
+    ...mapGetters('auth', { user: 'authUser' }),
 
-    lastPostFetched() {
-      if (this.user.posts.length === 0) return null;
-      return this.user.posts[this.user.posts.length - 1];
-    },
+    lastPostFetched () {
+      if (this.user.posts.length === 0) return null
+      return this.user.posts[this.user.posts.length - 1]
+    }
   },
   methods: {
-    fetchUserPosts() {
-      return this.$store.dispatch("auth/fetchAuthUsersPosts", {
-        startAfter: this.lastPostFetched,
-      });
-    },
+    fetchUserPosts () {
+      return this.$store.dispatch('auth/fetchAuthUsersPosts', {
+        startAfter: this.lastPostFetched
+      })
+    }
   },
-  async created() {
-    await this.fetchUserPosts();
-    this.asyncDataStatus_fetched();
-  },
-};
+  async created () {
+    await this.fetchUserPosts()
+    this.asyncDataStatus_fetched()
+  }
+}
 </script>

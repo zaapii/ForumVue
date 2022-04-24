@@ -4,37 +4,37 @@
 <script>
 export default {
   props: {
-    done: { type: Boolean, default: false },
+    done: { type: Boolean, default: false }
   },
-  data() {
+  data () {
     return {
-      observer: null,
-    };
+      observer: null
+    }
   },
-  mounted() {
+  mounted () {
     this.observer = new IntersectionObserver(
       (entries, observer) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting) this.$emit("load");
-        });
+          if (entry.isIntersecting) this.$emit('load')
+        })
       },
       {
         root: null,
-        rootMargin: "0px",
-        threshold: 0.9,
+        rootMargin: '0px',
+        threshold: 0.9
       }
-    );
-    this.observer.observe(this.$el);
+    )
+    this.observer.observe(this.$el)
   },
-  unmounted() {
-    this.observer.unobserve(this.$el);
+  unmounted () {
+    this.observer.unobserve(this.$el)
   },
   watch: {
-    done() {
-      if (this.done) this.observer.unobserve(this.$el);
-    },
-  },
-};
+    done () {
+      if (this.done) this.observer.unobserve(this.$el)
+    }
+  }
+}
 </script>
 <style scoped>
 div {
