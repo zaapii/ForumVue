@@ -7,11 +7,23 @@ import CategoryPage from '@/pages/CategoryPage'
 import ProfilePage from '@/pages/ProfilePage'
 import ThreadCreate from '@/pages/ThreadCreate'
 import ThreadEdit from '@/pages/ThreadEdit'
+import RegisterUser from '@/pages/RegisterUser'
+import LoginUser from '@/pages/LoginUser'
 import store from '@/store'
 
 const routes = [
   { path: '/', name: 'Home', component: HomePage },
   { path: '/forum/:id', name: 'ForumPage', component: ForumPage, props: true },
+  {
+    path: '/register',
+    name: 'Register',
+    component: RegisterUser
+  },
+  {
+    path: '/login',
+    name: 'LoginUser',
+    component: LoginUser
+  },
   {
     path: '/category/:id',
     name: 'CategoryPage',
