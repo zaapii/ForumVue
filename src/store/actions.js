@@ -1,5 +1,5 @@
 import firebase from '@/helpers/firebase'
-import { findById, docToResource } from '@/helpers'
+import { findById } from '@/helpers'
 export default {
   fetchItem (
     { state, commit },

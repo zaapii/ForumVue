@@ -9,11 +9,11 @@ export default (app) => {
   defineRule('url', url)
 
   defineRule('unique', async (value, args) => {
-    let collection, field, excluding
+    let collection, field
     if (Array.isArray(args)) {
-      [collection, field, excluding] = args
+      [collection, field] = args
     } else {
-      ({ collection, field, excluding } = args)
+      ({ collection, field } = args)
     }
     const querySnapshot = await firebase
       .firestore()
