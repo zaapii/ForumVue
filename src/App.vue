@@ -12,37 +12,37 @@
 </template>
 
 <script>
-import TheNavbar from "./components/TheNavbar.vue";
-import { mapActions } from "vuex";
-import NProgress from "nprogress";
-import AppNotifications from "@/components/AppNotifications";
+import TheNavbar from './components/TheNavbar.vue'
+import { mapActions } from 'vuex'
+import NProgress from 'nprogress'
+import AppNotifications from '@/components/AppNotifications'
 export default {
   components: { TheNavbar, AppNotifications },
-  name: "App",
-  created() {
+  name: 'App',
+  created () {
     NProgress.configure({
       speed: 200,
-      showSpinner: false,
-    });
-    this.fetchAuthUser();
+      showSpinner: false
+    })
+    this.fetchAuthUser()
     this.$router.beforeEach(() => {
-      this.showPage = false;
-      NProgress.start();
-    });
+      this.showPage = false
+      NProgress.start()
+    })
   },
   methods: {
-    ...mapActions("auth", ["fetchAuthUser"]),
-    onPageReady() {
-      this.showPage = true;
-      NProgress.done();
-    },
+    ...mapActions('auth', ['fetchAuthUser']),
+    onPageReady () {
+      this.showPage = true
+      NProgress.done()
+    }
   },
-  data() {
+  data () {
     return {
-      showPage: false,
-    };
-  },
-};
+      showPage: false
+    }
+  }
+}
 </script>
 
 <style>
