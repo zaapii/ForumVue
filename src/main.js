@@ -3,12 +3,20 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import firebase from './helpers/firebase'
-import firebaseConfig from './config/firebase'
 import FontAwesome from './plugins/FontAwesome'
 import ClickOutsideDirective from './plugins/ClickOutisdeDirective'
 import PageScrollDirective from './plugins/PageScrollDirective'
 import Vue3Pagination from './plugins/Vue3Pagination'
 import VeeValidatePlugin from './plugins/VeeValidatePlugin'
+
+const firebaseConfig = {
+  apiKey: 'AIzaSyDoBxsA-4DGI38XLTcgIP9Y4nWo0-a9_xg',
+  authDomain: 'vue-forum-6e786.firebaseapp.com',
+  projectId: 'vue-forum-6e786',
+  storageBucket: 'vue-forum-6e786.appspot.com',
+  messagingSenderId: '267527989840',
+  appId: '1:267527989840:web:08cdb81e53415e4314ff55'
+}
 
 firebase.initializeApp(firebaseConfig)
 
